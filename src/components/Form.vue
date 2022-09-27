@@ -27,8 +27,13 @@
       <input type="checkbox" value="yoshi" v-model="names" />
       <label>Yoshi</label>
     </div>
+
+    <label>Skills</label>
+    <input type="text" v-model="tempSkill" @keyup="addSkill" />
     <!-- <button>Submit</button> -->
-    {{ names }}
+    <div class="pill" v-for="skill in skills" :key="skill"
+      ><span @click="deleteSkill(skill)">{{ skill }}</span></div
+    >
   </form>
 </template>
 
@@ -41,7 +46,25 @@ export default {
       role: '',
       terms: false,
       names: [],
+      tempSkill: '',
+      skills: [],
     };
+  },
+  methods: {
+    addSkill(e) {
+      if (e.key === ' ' && this.tempSkill) {
+        if (!this.skills.includes(this.tempSkill)) {
+          this.skills.push(this.tempSkill);
+        }
+        this.tempSkill = '';
+      }
+    },
+
+    deleteSkill(skill) {
+      this.skills = this.skills.filter((item) => {
+        return skill !== item;
+      });
+    },
   },
 };
 </script>
@@ -83,5 +106,18 @@ input[type='checkbox'] {
   margin: 0 10px 0 0;
   position: relative;
   top: 2px;
+}
+
+.pill {
+  display: inline-block;
+  margin: 20px 10px 0 0;
+  padding: 6px 12px;
+  background: #eee;
+  border-radius: 20px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  font-weight: bold;
+  color: #777;
+  cursor: pointer;
 }
 </style>
